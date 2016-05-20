@@ -47,14 +47,14 @@ log.debug('Server is starting....');
 //TEST CONNECTION
 pool.getConnection(function(err, connection){
 if(!err) {
-    console.log("Database is connected ... nn");
-	log.info('Database is connected ... nn');
+    console.log("Database is connected ... ");
+	log.info('Database is connected ... ');
 	connection.release();
 } else {
-    console.log("Error connecting database ... nn");
-	log.error('Error connecting database ... nn');
+    console.log("Error connecting database ... ");
+	log.error('Error connecting database ... ');
 }
-console.log("releasing connection ... nn");
+console.log("releasing connection ... ");
 });
 
 // ROOT - Loads Angular App
