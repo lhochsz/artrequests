@@ -1,5 +1,6 @@
 /*
-Restful API testing with Node.js
+Restful API testing with Node.js/Express/MySQL/Angular
+-CRUD app with sample product listing
 *********
 Author:	Drew Lenhart
 Date:	5/10/2016
@@ -11,7 +12,7 @@ var mysql = require('mysql');
 var bodyParser = require("body-parser");
 
 /*
- * make a log directory, just in case it isn't there.
+ * create log directory if it doesnt exsist.
  */
 try {
   require('fs').mkdirSync('./log');
