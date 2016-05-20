@@ -1,10 +1,11 @@
 /*
-DinMinder 1.0 - snowytech
+Restful API testing with Node.js/Express/MySQL/Angular
+-CRUD app with sample product listing
 =========================
 Author:     Drew D. Lenhart
 File:       resources/js/app.js
 Desc:       Angular controller.
-Date:       03/19/2016
+Date:       5/10/2016
 */
 
 var app = angular.module('products', []);
