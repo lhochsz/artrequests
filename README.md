@@ -12,7 +12,7 @@ mysql: ^2.5.4
 body-parser: ^1.15.1
 log4js: ^0.6.36
 
-#Install:
+#Install
 1.  Download code.
 
 2.  Run angulartest.sql in "schema" folder, preferably in PHPMyAdmin or command line.  This will create database and table.
