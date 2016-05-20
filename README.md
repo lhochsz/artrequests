@@ -22,9 +22,9 @@ log4js: ^0.6.36
 
 3.  Edit **server.js** lines **40 & 41** with the username and password of the MySQL database.
 
-3.  Via command line, change directory to root and run **npm install**, this will install dependencies. 
+3.  Via command line, change directory to project root and run **npm install**, this will install dependencies. 
 
-4.  "npm start" to run application.
+4.  **npm start** to run application.
 
 5.  Browse to http://localhost:8081
 
