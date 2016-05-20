@@ -8,8 +8,11 @@ A CRUD Application to demonstrate create/read/update/delete using Node.js, Expre
 
 #NPM Packages
 express: ^4.10.6
+
 mysql: ^2.5.4
+
 body-parser: ^1.15.1
+
 log4js: ^0.6.36
 
 #Install
