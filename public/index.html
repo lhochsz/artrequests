@@ -1,0 +1,150 @@
+  <!DOCTYPE html>
+  <html>
+    <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+    <title>Node/Express/MySQL/Angular Product Demo</title>
+      <!--Import bootstrap.css-->
+      <link type="text/css" rel="stylesheet" href="resources/css/bootstrap.min.css" />
+	  
+	  <!-- custom CSS -->
+ 
+		<style>
+        @font-face {
+            font-family: 'Roboto';
+            src: url('resources/fonts/roboto/Roboto-Regular.eot');
+            src: url('resources/fonts/roboto/Roboto-Regular.woff') format('woff'), 
+            url('resources/fonts/roboto/Roboto-Regular.ttf') format('truetype');
+            font-style: normal;
+            }
+            
+        body{font-family: "Roboto"}
+            
+		.width-30-pct{
+			width:30%;
+		}
+		 
+		.text-align-center{
+			text-align:center;
+		}
+		 
+		.margin-bottom-1em{
+			margin-bottom:1em;
+		}
+		</style>
+
+    </head>
+
+    <body>
+<div class="container" ng-app="products" ng-controller="productCTRL">
+    <div class="row">
+        <div class="">
+            <h3>Products</h3>
+			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" ng-click="showCreateForm()">Add</a>
+			<!-- table that shows product record list -->
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<!--<th class="text-align-center">ID</th>-->
+						<th class="">ID</th>
+						<th class="width-30-pct">Name</th>
+						<th class="width-30-pct">Description</th>
+						<th class="text-align-center">Price</th>
+						<th class="text-align-center"></th>
+					</tr>
+				</thead>
+				<tbody ng-init="getAll()">
+					<tr ng-repeat="d in names | filter:search">
+						<td>{{ d.id }}</td>
+						<td>{{ d.name }}</td>
+						<td>{{ d.description }}</td>
+						<td class="text-align-center">{{ d.price }}</td>
+						<td align="center">
+							<a ng-click="readOne(d.id)" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-edit" aria-hidden="true"> Edit</span></a>
+							<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm{{d.id}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"> Remove</span></a>
+							<!--Are you sure modal-->
+							<div class="modal" id="confirm{{d.id}}" tabindex="-1" role="dialog">
+							  <div class="modal-dialog">
+								<div class="modal-content">
+								  <div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title">Confirm</h4>
+								  </div>
+								  <div class="modal-body">
+									  <div><b style='color: red'>{{modalstatustext}}</b></div>
+									<p>Are you sure you want to delete this record?</p>
+									<div ng-show="loader.loading">Loading...</div>
+								  </div>
+								  <div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+									<button type="button" class="btn btn-danger" ng-click="deleteProduct(d.id)" >Yes</button>
+								  </div>
+								</div><!-- /.modal-content -->
+							  </div><!-- /.modal-dialog -->
+							</div><!-- /.modal -->
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+			<div>{{statustext}}</div>
+            <div ng-show="loader.loading">Loading...</div>
+        </div>
+    </div> <!-- end row -->
+
+	<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modal-product-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <div ng-show="loader.loading">Loading...</div>
+          <div><b style='color: red'>{{modalstatustext}}</b></div>
+		<form id="form-dinminder">
+				<div class="form-group">
+					<label for="name" class="control-label">Name</label>
+					<input ng-model="name" type="text" class="form-control" id="form-name" placeholder="Type name here...">
+					
+				</div>
+				<div class="form-group">
+					<label for="description" class="control-label">Description</label>
+					<textarea ng-model="description" type="text" class="form-control" placeholder="Type description here..."></textarea>
+					
+				</div>
+				<div class="form-group">
+					<label for="price" class="control-label">Price</label>
+					<input ng-model="price" type="text" class="form-control" id="form-price" placeholder="Type price here..." />
+					
+				</div>
+		</form>
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button id="btn-create-product" type="button" class="btn btn-primary" ng-click="createProduct()">Create</button>
+		<button id="btn-update-product" type="button" class="btn btn-primary" ng-click="updateProduct()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</div> <!-- end container -->
+
+      <!--Import jQuery before bootstrap.js-->
+      <script type="text/javascript" src="resources/js/jquery-2.2.1.min.js"></script>
+      <script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
+	  
+	  <!-- include angular js -->
+	  <script src="resources/js/angular.min.js"></script>
+	  
+	  <!-- controller app -->
+	  <script src="resources/js/app.js"></script>
+
+    </body>
+  </html>
