@@ -58,7 +58,7 @@ app.controller('productCTRL', function ($scope, $http) {
         $http.get("api/list")
             .success(function (response) {
                 if (response.error === 2) {
-					//if error code is returned from node code, then there are no entries in db.
+					//if error code is returned from node code, then there are no entries in db!
 					$scope.statustext = "There are currently no products available!";
 					$scope.loader.loading = false;
 				} else {
