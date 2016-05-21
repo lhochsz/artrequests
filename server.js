@@ -39,8 +39,8 @@ app.use(bodyParser.json()); // Body parser use JSON data
 var pool = mysql.createPool({
 	connectionLimit : 25,
 	host     : 'localhost',
-	user     : 'drew',
-	password : 'viper',
+	user     : '',
+	password : '',
 	database : 'angulartest'
 });
 
