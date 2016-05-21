@@ -53,28 +53,28 @@ app.controller('productCTRL', function ($scope, $http) {
     //Read all entries
     $scope.getAll = function () {
         
-        $scope.loader.loading = true ;
+        $scope.loader.loading = true;
         
         $http.get("api/list")
             .success(function (response) {
-                if (response.error == 2){
+                if (response.error === 2) {
 					//if error code is returned from node code, then there are no entries in db.
 					$scope.statustext = "There are currently no products available!";
-					$scope.loader.loading = false ;
-				}else{
+					$scope.loader.loading = false;
+				} else {
 					$scope.names = response.products;
 					//Turn off spinner
-					$scope.loader.loading = false ;
+					$scope.loader.loading = false;
 					$scope.statustext = "";
 				}
             })
             .error(function (data, status, headers, config) {
-                $scope.loader.loading = false ;
+                $scope.loader.loading = false;
                 $scope.statustext = "There was an error fetching data, please check database connection!";
             });
     };
 
-    // retrieve record to fill out the form
+    // Read product by ID
     $scope.readOne = function (id) {
         // clear modal content
         $scope.clearForm();
@@ -89,9 +89,9 @@ app.controller('productCTRL', function ($scope, $http) {
         // show create product button
         $('#btn-create-product').hide();
         
-        $scope.loader.loading = true ;
+        $scope.loader.loading = true;
 
-        // get id of product to be edited
+        // get id 
         $http.get('api/list/' + id)
             .success(function (data, status, headers, config) {
                 //Show fields
@@ -105,11 +105,11 @@ app.controller('productCTRL', function ($scope, $http) {
                 // show modal
                 $('#myModal').modal('show');
                 //Turn off spinner
-                $scope.loader.loading = false ;
+                $scope.loader.loading = false;
             })
             .error(function (data, status, headers, config) {
                 //Turn of spinner & display error
-                $scope.loader.loading = false ;
+                $scope.loader.loading = false;
                 $scope.modalstatustext = "There was an error fetching data";
             });
     };
@@ -117,7 +117,7 @@ app.controller('productCTRL', function ($scope, $http) {
     // Create Product
     $scope.createProduct = function () {
         
-        $scope.loader.loading = true ;
+        $scope.loader.loading = true;
         
         $http.post('/api/insert', {
             'name' : $scope.name,
@@ -135,7 +135,7 @@ app.controller('productCTRL', function ($scope, $http) {
                 $scope.getAll();
             })
             .error(function (data, status, headers, config) {
-                $scope.loader.loading = false ;
+                $scope.loader.loading = false;
                 $scope.modalstatustext = "Unable to Update data!";
             });
     };
@@ -143,7 +143,7 @@ app.controller('productCTRL', function ($scope, $http) {
 	// update product record / save changes
     $scope.updateProduct = function () {
         
-        $scope.loader.loading = true ;
+        $scope.loader.loading = true;
         
         $http.put('/api/update', {
             'id' : $scope.id,
@@ -162,14 +162,14 @@ app.controller('productCTRL', function ($scope, $http) {
                 $scope.getAll();
             })
             .error(function (data, status, headers, config) {
-                $scope.loader.loading = false ;
+                $scope.loader.loading = false;
                 $scope.modalstatustext = "Unable to Update data!";
             });
     };
 
     //Delete product
     $scope.deleteProduct = function (id) {
-        $scope.loader.loading = true ;
+        $scope.loader.loading = true;
 		
         $http.post('/api/delete', {
             'id' : id
