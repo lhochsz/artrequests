@@ -58,9 +58,9 @@ require('./routes/users.js')(app, passport); // load our routes and pass in our 
 var pool = mysql.createPool({
 	connectionLimit : 25,
 	host     : 'localhost',
-	user     : 'Agesander',
-	password : 'superlux',
-	database : 'leslie3'
+	user     : 'user',
+	password : 'password',
+	database : 'db'
 });
 
 log.debug('Server is starting....');
