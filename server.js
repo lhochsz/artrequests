@@ -34,13 +34,15 @@ var log4js = require('log4js');
 log4js.configure('./config/log4js.json');
 var log = log4js.getLogger("server");
 
+//Load Passport
+require('./config/passport')(passport);
 
 //STATIC FILES
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // Body parser use JSON data
 
-//More security
+//More Passport security
 app.use(session({ secret: 'WDI Rocks!',
                   resave: true,
                   saveUninitialized: true }));
@@ -48,7 +50,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-require('./config/passport')(passport);
+//Routes
+require('./routes/users.js')(app, passport); // load our routes and pass in our app and fully configured passport
+
 
 /*MY SQL Connection Info*/
 var pool = mysql.createPool({
@@ -75,13 +79,15 @@ pool.getConnection(function (err, connection) {
 });
 
 // ROOT - Loads Home
-app.get('/home', function (req, res) {
-	res.sendFile( __dirname + "/" + "public/home.ejs" );
+app.get('/', function (req, res) {
+	res.sendFile( __dirname + "/" );
 });
 
 // ROOT - Loads Angular App
-app.get('/requests', function (req, res) {
-	res.sendFile( __dirname + "/" + "index.html" );
+app.get('/home', isLoggedIn, function (req, res) {
+	res.render( __dirname + "/" + "views/home.ejs", { 
+		user : req.user 
+	});
 });
 
 // This responds a GET request for the /list page.
@@ -248,6 +254,17 @@ var server = app.listen(8081, function () {
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log("dummy app listening at: " + host + ":" + port);
+  console.log("App listening at: " + host + ":" + port);
 
 })
+
+// route middleware to make sure
+function isLoggedIn(req, res, next) {
+
+	// if user is authenticated in the session, carry on
+	if (req.isAuthenticated())
+		return next();
+
+	// if they aren't redirect them to the home page
+	res.redirect('/');
+}
