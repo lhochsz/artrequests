@@ -4,12 +4,19 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.1",
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.5.3",
     "express": "^4.10.6",
+    "express-session": "^1.14.2",
+    "log4js": "^0.6.36",
     "mysql": "^2.5.4",
-	"body-parser": "^1.15.1",
-	"log4js": "^0.6.36"
+    "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
   }
 }

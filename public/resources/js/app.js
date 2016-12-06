@@ -8,7 +8,7 @@ Desc:       Angular controller.
 Date:       5/10/2016
 */
 
-var app = angular.module('products', []);
+var app = angular.module('productsApp', []);
 
 app.controller('productCTRL', function ($scope, $http) {
     

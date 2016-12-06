@@ -11,6 +11,11 @@ var app = express();
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
 
+//Security
+var passport = require('passport');
+var session = require('express-session');
+var flash = require('connect-flash');
+
 /*
  * create log directory if it doesnt exsist.
  * try/catch from log4js demo.
@@ -35,13 +40,23 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // Body parser use JSON data
 
+//More security
+app.use(session({ secret: 'WDI Rocks!',
+                  resave: true,
+                  saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+require('./config/passport')(passport);
+
 /*MY SQL Connection Info*/
 var pool = mysql.createPool({
 	connectionLimit : 25,
 	host     : 'localhost',
-	user     : '',
-	password : '',
-	database : 'angulartest'
+	user     : 'Agesander',
+	password : 'superlux',
+	database : 'leslie3'
 });
 
 log.debug('Server is starting....');
@@ -59,8 +74,13 @@ pool.getConnection(function (err, connection) {
 	console.log("releasing connection ... ");
 });
 
+// ROOT - Loads Home
+app.get('/home', function (req, res) {
+	res.sendFile( __dirname + "/" + "public/home.ejs" );
+});
+
 // ROOT - Loads Angular App
-app.get('/', function (req, res) {
+app.get('/requests', function (req, res) {
 	res.sendFile( __dirname + "/" + "index.html" );
 });
 
