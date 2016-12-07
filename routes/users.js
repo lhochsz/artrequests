@@ -33,7 +33,7 @@ module.exports = function(app, passport) {
             } else {
               req.session.cookie.expires = false;
             }
-        res.redirect('/home');
+        res.redirect('/home' + req.user.id);
     });
 
 	// =====================================

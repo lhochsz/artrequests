@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
       
-    <title>Node/Express/MySQL/Angular Product Demo</title>
+    <title>Art Request Site</title>
       <!--Import bootstrap.css-->
       <link type="text/css" rel="stylesheet" href="resources/css/bootstrap.min.css" />
 	  
@@ -53,16 +53,24 @@
 				<thead>
 					<tr>
 						<!--<th class="text-align-center">ID</th>-->
-						<th class="">ID</th>
-						<th class="width-30-pct">Name</th>
-						<th class="width-30-pct">Description</th>
+						<th class="">Order ID</th>
+						<th class="">User ID</th>
+						<th class="">Created</th>
+						<th class="">Updated</th>
+						<th class="width-20-pct">Name</th>
+						<th class="width-20-pct">Description</th>
 						<th class="text-align-center">Price</th>
 						<th class="text-align-center"></th>
 					</tr>
 				</thead>
+
 				<tbody ng-init="getAll()">
+
 					<tr ng-repeat="d in names | filter:search">
 						<td>{{ d.id }}</td>
+						<td>{{ d.userId }}</td>
+						<td>{{ d.created_at }}</td>
+						<td>{{ d.changed_at }}</td>
 						<td>{{ d.name }}</td>
 						<td>{{ d.description }}</td>
 						<td class="text-align-center">{{ d.price }}</td>
@@ -91,6 +99,7 @@
 							</div><!-- /.modal -->
 						</td>
 					</tr>
+					
 					
 				</tbody>
 			</table>

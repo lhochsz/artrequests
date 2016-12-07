@@ -1,11 +1,3 @@
-/*
-Restful API testing with Node.js/Express/MySQL/Angular
--CRUD app with sample product listing
-*********
-Author:	Drew Lenhart
-Date:	5/10/2016
-*/
-
 var express = require('express');
 var app = express();
 var mysql = require('mysql');
@@ -43,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // Body parser use JSON data
 
 //More Passport security
-app.use(session({ secret: 'WDI Rocks!',
+app.use(session({ secret: 'Superlux Rocks!',
                   resave: true,
                   saveUninitialized: true }));
 app.use(passport.initialize());
@@ -53,12 +45,18 @@ app.use(flash());
 //Routes
 require('./routes/users.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
+// This middleware will allow us to use the currentUser in our views and routes.
+app.use(function (req, res, next) {
+  global.currentUser = req.user;
+  next();
+});
+
 
 /*MY SQL Connection Info*/
 var pool = mysql.createPool({
 	connectionLimit : 25,
 	host     : 'localhost',
-	user     : 'user',
+	user     : 'username',
 	password : 'password',
 	database : 'db'
 });
@@ -88,24 +86,31 @@ app.get('/home', isLoggedIn, function (req, res) {
 	res.render( __dirname + "/" + "views/home.ejs", { 
 		user : req.user 
 	});
+
 });
 
 // This responds a GET request for the /list page.
-app.get('/api/list', function (req, res) {
+app.get('/api/list', isLoggedIn, function (req, res) {
+	var user = req.user;
+	console.log(user);
 	console.log("GET Request :: /list");
 	log.info('GET Request :: /list');
 	var data = {
         "error": 1,
-        "products": ""
+        "products": "",
+        "user": user
     };
 	
 	pool.getConnection(function (err, connection) {
-		connection.query('SELECT * from products', function (err, rows, fields) {
+		var currentUserId = global.currentUser.id;
+		console.log('User id is: ' + currentUserId);
+		connection.query('SELECT * from requests', function (err, rows, fields) {
 			connection.release();
 
 			if (rows.length !== 0 && !err) {
 				data["error"] = 0;
 				data["products"] = rows;
+				data["user"] = user;
 				res.json(data);
 			} else if (rows.length === 0) {
 				//Error code 2 = no rows in db.
@@ -131,13 +136,13 @@ app.put('/api/update', function (req, res) {
     var price = req.body.price;
     var data = {
         "error": 1,
-        "product": ""
+        "request": ""
     };
 	console.log('PUT Request :: /update: ' + id);
 	log.info('PUT Request :: /update: ' + id);
     if (!!id && !!name && !!description && !!price) {
 		pool.getConnection(function (err, connection) {
-			connection.query("UPDATE products SET name = ?, description = ?, price = ? WHERE id=?",[name,  description, price, id], function (err, rows, fields) {
+			connection.query("UPDATE requests SET name = ?, description = ?, price = ? WHERE id=?",[name,  description, price, id], function (err, rows, fields) {
 				if (!!err) {
 					data["product"] = "Error Updating data";
 					console.log(err);
@@ -162,13 +167,13 @@ app.get('/api/list/:id', function (req, res) {
 	var id = req.params.id;
 	var data = {
         "error": 1,
-        "product": ""
+        "request": ""
     };
 	
 	console.log("GET request :: /list/" + id);
 	log.info("GET request :: /list/" + id);
 	pool.getConnection(function (err, connection) {
-		connection.query('SELECT * from products WHERE id = ?', id, function (err, rows, fields) {
+		connection.query('SELECT * from requests WHERE id = ?', id, function (err, rows, fields) {
 			connection.release();
 			
 			if (rows.length !== 0 && !err) {
@@ -176,7 +181,7 @@ app.get('/api/list/:id', function (req, res) {
 				data["product"] = rows;
 				res.json(data);
 			} else {
-				data["product"] = 'No product Found..';
+				data["product"] = 'No product found.';
 				res.json(data);
 				console.log('Error while performing Query: ' + err);
 				log.error('Error while performing Query: ' + err);
@@ -186,20 +191,21 @@ app.get('/api/list/:id', function (req, res) {
 	});
 });
 
-//INSERT new product
+//INSERT new request
 app.post('/api/insert', function (req, res) {
     var name = req.body.name;
     var description = req.body.description;
     var price = req.body.price;
+    var userId = req.user.id;
     var data = {
         "error": 1,
-        "products": ""
+        "requests": ""
     };
 	console.log('POST Request :: /insert: ');
 	log.info('POST Request :: /insert: ');
     if (!!name && !!description && !!price) {
 		pool.getConnection(function (err, connection) {
-			connection.query("INSERT INTO products SET name = ?, description = ?, price = ?",[name,  description, price], function (err, rows, fields) {
+			connection.query("INSERT INTO requests SET name = ?, description = ?, price = ?, userId = ?",[name,  description, price, userId], function (err, rows, fields) {
 				if (!!err) {
 					data["products"] = "Error Adding data";
 					console.log(err);
@@ -207,8 +213,8 @@ app.post('/api/insert', function (req, res) {
 				} else {
 					data["error"] = 0;
 					data["products"] = "Product Added Successfully";
-					console.log("Added: " + [name, description, price]);
-					log.info("Added: " + [name, description, price]);
+					console.log("Added: " + [name, description, price, userId]);
+					log.info("Added: " + [name, description, price, userId]);
 				}
 				res.json(data);
 			});
@@ -229,7 +235,7 @@ app.post('/api/delete', function (req, res) {
 	log.info('DELETE Request :: /delete: ' + id);
     if (!!id) {
 		pool.getConnection(function (err, connection) {
-			connection.query("DELETE FROM products WHERE id=?",[id],function (err, rows, fields) {
+			connection.query("DELETE FROM requests WHERE id=?",[id],function (err, rows, fields) {
 				if (!!err) {
 					data["product"] = "Error deleting data";
 					console.log(err);

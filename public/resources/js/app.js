@@ -62,6 +62,7 @@ app.controller('productCTRL', function ($scope, $http) {
 					$scope.statustext = "There are currently no products available!";
 					$scope.loader.loading = false;
 				} else {
+                    //$scope.userId = global.currentUser.id;
 					$scope.names = response.products;
 					//Turn off spinner
 					$scope.loader.loading = false;
