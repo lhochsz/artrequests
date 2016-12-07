@@ -97,20 +97,20 @@ app.get('/api/list', isLoggedIn, function (req, res) {
 	log.info('GET Request :: /list');
 	var data = {
         "error": 1,
-        "products": "",
-        "user": user
+        "products": ""
+        //"user": user
     };
 	
 	pool.getConnection(function (err, connection) {
 		var currentUserId = global.currentUser.id;
 		console.log('User id is: ' + currentUserId);
-		connection.query('SELECT * from requests', function (err, rows, fields) {
+		connection.query('SELECT *, DATE_FORMAT(created_at, "%m-%d-%Y - %H:%i:%s") created_at, DATE_FORMAT(changed_at, "%m-%d-%Y - %H:%i:%s") FROM requests ORDER BY created_at DESC', function (err, rows, fields) {
 			connection.release();
 
 			if (rows.length !== 0 && !err) {
 				data["error"] = 0;
 				data["products"] = rows;
-				data["user"] = user;
+				//data["user"] = user;
 				res.json(data);
 			} else if (rows.length === 0) {
 				//Error code 2 = no rows in db.
@@ -196,6 +196,7 @@ app.post('/api/insert', function (req, res) {
     var name = req.body.name;
     var description = req.body.description;
     var price = req.body.price;
+    var status = req.body.status;
     var userId = req.user.id;
     var data = {
         "error": 1,
@@ -203,9 +204,9 @@ app.post('/api/insert', function (req, res) {
     };
 	console.log('POST Request :: /insert: ');
 	log.info('POST Request :: /insert: ');
-    if (!!name && !!description && !!price) {
+    if (!!name && !!description && !!price && !!status ) {
 		pool.getConnection(function (err, connection) {
-			connection.query("INSERT INTO requests SET name = ?, description = ?, price = ?, userId = ?",[name,  description, price, userId], function (err, rows, fields) {
+			connection.query("INSERT INTO requests SET name = ?, description = ?, price = ?, userId = ?, status = ?",[name,  description, price, userId, status], function (err, rows, fields) {
 				if (!!err) {
 					data["products"] = "Error Adding data";
 					console.log(err);
@@ -213,8 +214,8 @@ app.post('/api/insert', function (req, res) {
 				} else {
 					data["error"] = 0;
 					data["products"] = "Product Added Successfully";
-					console.log("Added: " + [name, description, price, userId]);
-					log.info("Added: " + [name, description, price, userId]);
+					console.log("Added: " + [name, description, price, userId, status]);
+					log.info("Added: " + [name, description, price, userId, status]);
 				}
 				res.json(data);
 			});

@@ -21,7 +21,7 @@ app.controller('productCTRL', function ($scope, $http) {
         $scope.clearForm();
 
         // change modal title
-        $('#modal-product-title').text('Create New Product - create window');
+        $('#modal-product-title').text('Create New Art Request');
 
         // hide update product button
         $('#btn-update-product').hide();
@@ -37,6 +37,7 @@ app.controller('productCTRL', function ($scope, $http) {
         $scope.name = "";
         $scope.description = "";
         $scope.price = "";
+        $scope.status = "";
         $scope.modalstatustext = "";
     };
     
@@ -102,6 +103,7 @@ app.controller('productCTRL', function ($scope, $http) {
                 $scope.name = data.product[0].name;
                 $scope.description = data.product[0].description;
                 $scope.price = data.product[0].price;
+                $scope.status = data.product[0].status;
 
                 // show modal
                 $('#myModal').modal('show');
@@ -123,7 +125,8 @@ app.controller('productCTRL', function ($scope, $http) {
         $http.post('/api/insert', {
             'name' : $scope.name,
             'description' : $scope.description,
-            'price' : $scope.price
+            'price' : $scope.price,
+            'status' : $scope.status
         })
             .success(function (data, status, headers, config) {
                 // close modal
