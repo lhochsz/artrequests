@@ -1,0 +1,31 @@
+/*@font-face {
+            font-family: 'Roboto';
+            src: url('./fonts/roboto/Roboto-Regular.eot');
+            src: url('./fonts/roboto/Roboto-Regular.woff') format('woff'), 
+            url('./fonts/roboto/Roboto-Regular.ttf') format('truetype');
+            font-style: normal;
+            }*/
+            
+body {
+	font-family: "Arial", sans-serif;
+}
+            
+.width-30-pct{
+	width:30%;
+}
+
+.width-15-pct{
+	width:15%;
+}
+		 
+.text-align-center{
+	text-align:center;
+}
+		 
+.margin-bottom-1em{
+	margin-bottom:1em;
+}
+
+#search {
+	margin: 1rem 0 1rem 0;
+}

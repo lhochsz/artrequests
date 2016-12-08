@@ -56,9 +56,9 @@ app.use(function (req, res, next) {
 var pool = mysql.createPool({
 	connectionLimit : 25,
 	host     : 'localhost',
-	user     : 'username',
-	password : 'password',
-	database : 'db'
+	user     : 'Agesander',
+	password : 'superlux',
+	database : 'leslie3'
 });
 
 log.debug('Server is starting....');
