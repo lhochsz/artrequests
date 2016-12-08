@@ -47,7 +47,11 @@
     <div class="row">
         <div class="">
             <h3>Art Requests</h3>
-			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" ng-click="showCreateForm()">Add</a>
+			<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" ng-click="showCreateForm()">Add New Art Request</a>
+
+			<!-- Search bar-->
+			 <input type="text" class="form-control" ng-model="search" placeholder="Search for an art request">
+
 			<!-- table that shows product record list -->
 			<table class="table table-striped">
 				<thead>
@@ -60,6 +64,7 @@
 						<th class="width-15-pct">Name</th>
 						<th class="width-15-pct">Description</th>
 						<th class="text-align-center">Status</th>
+						<!-- <th class="text-align-center">Price</th> -->
 						<th class="text-align-center"></th>
 					</tr>
 				</thead>
@@ -74,6 +79,7 @@
 						<td>{{ d.name }}</td>
 						<td>{{ d.description }}</td>
 						<td class="text-align-center">{{ d.status }}</td>
+						<!-- <td class="text-align-center">{{ d.price }}</td> -->
 						<td align="center">
 							<a ng-click="readOne(d.id)" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-edit" aria-hidden="true"> Edit</span></a>
 							<a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm{{d.id}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"> Remove</span></a>
@@ -138,7 +144,8 @@
 				<div class="form-group">
 					<label for="status" class="control-label">Status</label>
 					<select ng-model="status" type="text" class="form-control" id="form-status">
-						<option selected disabled > --Choose a Status-- </option>
+						<option value="" hidden />
+						<option disabled selected value=""> --Choose a Status-- </option>
 						<option value="Artist Preparation">Artist Preparation</option>
 						<option value="Customer Approval">Customer Approval</option>
 						<option value="Regulatory Approval">Regulatory Approval</option>

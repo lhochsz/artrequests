@@ -134,15 +134,16 @@ app.put('/api/update', function (req, res) {
     var name = req.body.name;
     var description = req.body.description;
     var price = req.body.price;
+    var status = req.body.status;
     var data = {
         "error": 1,
         "request": ""
     };
 	console.log('PUT Request :: /update: ' + id);
 	log.info('PUT Request :: /update: ' + id);
-    if (!!id && !!name && !!description && !!price) {
+    if (!!id && !!name && !!description && !!price && !!status) {
 		pool.getConnection(function (err, connection) {
-			connection.query("UPDATE requests SET name = ?, description = ?, price = ? WHERE id=?",[name,  description, price, id], function (err, rows, fields) {
+			connection.query("UPDATE requests SET name = ?, description = ?, price = ?, status = ? WHERE id=?",[name,  description, price, status, id], function (err, rows, fields) {
 				if (!!err) {
 					data["product"] = "Error Updating data";
 					console.log(err);
@@ -150,8 +151,8 @@ app.put('/api/update', function (req, res) {
 				} else {
 					data["error"] = 0;
 					data["product"] = "Updated Book Successfully";
-					console.log("Updated: " + [id, name, description, price]);
-					log.info("Updated: " + [id, name, description, price]);
+					console.log("Updated: " + [id, name, description, price, status]);
+					log.info("Updated: " + [id, name, description, price, status]);
 				}
 				res.json(data);
 			});

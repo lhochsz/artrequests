@@ -83,7 +83,7 @@ app.controller('productCTRL', function ($scope, $http) {
         $scope.hideFormFields();
         
         // change modal title
-        $('#modal-product-title').text("Edit Product");
+        $('#modal-product-title').text("Edit Art Request");
 
         // show udpate product button
         $('#btn-update-product').show();
@@ -153,7 +153,8 @@ app.controller('productCTRL', function ($scope, $http) {
             'id' : $scope.id,
             'name' : $scope.name,
             'description' : $scope.description,
-            'price' : $scope.price
+            'price' : $scope.price,
+            'status' : $scope.status
         })
             .success(function (data, status, headers, config) {
                 // close modal
